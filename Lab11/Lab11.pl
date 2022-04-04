@@ -54,3 +54,8 @@ parent(zhdana,zlatomir).
 daughter(X, Y) :- woman(X), parent(Y, X),!.
 % 11 Вывести всех дочерей X
 daughter(X) :- parent(X, Y), woman(Y), write(Y), nl, fail.
+
+% 12 Является ли X мужем Y
+husband(X, Y) :- man(X), woman(Y), parent(X, Child), parent(Y, Child),!.
+% 12 Вывести мужа X
+husband(X) :- woman(X), man(Man), parent(X, Child), parent(Man, Child), write(Man),nl,!.
