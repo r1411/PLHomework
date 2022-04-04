@@ -64,3 +64,12 @@ husband(X) :- woman(X), man(Man), parent(X, Child), parent(Man, Child), write(Ma
 grand_so(X, Y) :- man(X), parent(Y, X_Parent), parent(X_Parent, X),!.
 % 13 Вывести всех внуков X
 grand_sons(X) :- parent(X, X_Child), parent(X_Child, Grand_Child), man(Grand_Child), write(Grand_Child), nl, fail.
+
+% Являются ли X и Y бабушкой и внучкой
+grand_ma_and_da(X, Y) :-
+    woman(X), woman(Y), parent(X, Y_Parent), parent(Y_Parent, Y),!.
+
+% 14 Являются ли X и Y бабушкой и внучкой (или внучкой и бабушкой)
+grand_ma_and_da_both(X, Y) :-
+    grand_ma_and_da(X, Y),!;
+    grand_ma_and_da(Y, X),!.
