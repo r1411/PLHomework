@@ -59,3 +59,8 @@ daughter(X) :- parent(X, Y), woman(Y), write(Y), nl, fail.
 husband(X, Y) :- man(X), woman(Y), parent(X, Child), parent(Y, Child),!.
 % 12 Вывести мужа X
 husband(X) :- woman(X), man(Man), parent(X, Child), parent(Man, Child), write(Man),nl,!.
+
+% 13 Является ли X внуком Y
+grand_so(X, Y) :- man(X), parent(Y, X_Parent), parent(X_Parent, X),!.
+% 13 Вывести всех внуков X
+grand_sons(X) :- parent(X, X_Child), parent(X_Child, Grand_Child), man(Grand_Child), write(Grand_Child), nl, fail.
