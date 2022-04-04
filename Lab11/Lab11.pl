@@ -51,6 +51,6 @@ parent(zhdana,zdislava).
 parent(zhdana,zlatomir).
 
 % 11 Является ли X дочерью Y
-daughter(X, Y) :- woman(X), parent(Y, X).
+daughter(X, Y) :- woman(X), parent(Y, X),!.
 % 11 Вывести всех дочерей X
 daughter(X) :- parent(X, Y), woman(Y), write(Y), nl, fail.
