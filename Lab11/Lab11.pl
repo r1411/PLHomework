@@ -96,3 +96,8 @@ km3_down(X, Result) :- km3_down(X, Result, 0).
 fib_up(1, 1) :- !.
 fib_up(2, 1) :- !.
 fib_up(N, X) :- N1 is N - 1, N2 is N-2, fib_up(N1, X1), fib_up(N2, X2), X is X1 + X2.
+
+% 20 Фибоначчи (рек. вниз)
+fib_down(_, Result, N, N, Result) :- !.
+fib_down(X2, X1, I, N, Result) :-  X is X1 + X2, I1 is I + 1, fib_down(X1, X, I1, N, Result).
+fib_down(N, X) :- fib_down(0, 1, 1, N, X). 
