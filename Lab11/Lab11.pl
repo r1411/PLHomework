@@ -82,3 +82,7 @@ min_d_up(X, Dig) :- X1 is X div 10, min_d_up(X1, D1), D2 is X mod 10, (D1<D2, Di
 min_d_down(0, Result, Result) :- !.
 min_d_down(X, Result, CurrentMin) :- X1 is X div 10, D1 is X mod 10, (D1 < CurrentMin, NCM is D1; NCM is CurrentMin), min_d_down(X1, Result, NCM),!.
 min_d_down(X, Result) :- Temp is X mod 10, min_d_down(X, Result, Temp),!.
+
+% 17 Найти количество цифр числа, меньших 3 (рек. вверх)
+km3_up(0, 0) :- !.
+km3_up(X, Result) :- X1 is X div 10, km3_up(X1, Res1), D is X mod 10, (D < 3, Result is Res1 + 1; Result is Res1), !.
