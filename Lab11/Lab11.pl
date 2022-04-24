@@ -86,3 +86,8 @@ min_d_down(X, Result) :- Temp is X mod 10, min_d_down(X, Result, Temp),!.
 % 17 Найти количество цифр числа, меньших 3 (рек. вверх)
 km3_up(0, 0) :- !.
 km3_up(X, Result) :- X1 is X div 10, km3_up(X1, Res1), D is X mod 10, (D < 3, Result is Res1 + 1; Result is Res1), !.
+
+% 18 Найти количество цифр числа, меньших 3 (рек. вниз)
+km3_down(0, Result, Result) :- !.
+km3_down(X, Result, CurCnt) :- X1 is X div 10, D is X mod 10, (D < 3, NCC is CurCnt + 1; NCC is CurCnt), km3_down(X1, Result, NCC),!.
+km3_down(X, Result) :- km3_down(X, Result, 0).
