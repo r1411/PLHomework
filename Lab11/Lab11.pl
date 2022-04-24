@@ -91,3 +91,8 @@ km3_up(X, Result) :- X1 is X div 10, km3_up(X1, Res1), D is X mod 10, (D < 3, Re
 km3_down(0, Result, Result) :- !.
 km3_down(X, Result, CurCnt) :- X1 is X div 10, D is X mod 10, (D < 3, NCC is CurCnt + 1; NCC is CurCnt), km3_down(X1, Result, NCC),!.
 km3_down(X, Result) :- km3_down(X, Result, 0).
+
+% 19 Фибоначчи (рек. вверх) 
+fib_up(1, 1) :- !.
+fib_up(2, 1) :- !.
+fib_up(N, X) :- N1 is N - 1, N2 is N-2, fib_up(N1, X1), fib_up(N2, X2), X is X1 + X2.
