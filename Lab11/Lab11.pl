@@ -73,3 +73,7 @@ grand_ma_and_da(X, Y) :-
 grand_ma_and_da_both(X, Y) :-
     grand_ma_and_da(X, Y),!;
     grand_ma_and_da(Y, X),!.
+
+% 15 Минимальная цифра числа (рек. вверх)
+min_d_up(0, 9) :- !.
+min_d_up(X, Dig) :- X1 is X div 10, min_d_up(X1, D1), D2 is X mod 10, (D1<D2, Dig is D1; Dig is D2),!.
