@@ -77,3 +77,8 @@ grand_ma_and_da_both(X, Y) :-
 % 15 Минимальная цифра числа (рек. вверх)
 min_d_up(0, 9) :- !.
 min_d_up(X, Dig) :- X1 is X div 10, min_d_up(X1, D1), D2 is X mod 10, (D1<D2, Dig is D1; Dig is D2),!.
+
+% 16 Минимальная цифра числа (рек. вниз)
+min_d_down(0, Result, Result) :- !.
+min_d_down(X, Result, CurrentMin) :- X1 is X div 10, D1 is X mod 10, (D1 < CurrentMin, NCM is D1; NCM is CurrentMin), min_d_down(X1, Result, NCM),!.
+min_d_down(X, Result) :- Temp is X mod 10, min_d_down(X, Result, Temp),!.
