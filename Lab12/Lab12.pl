@@ -11,6 +11,12 @@ fact(N, X, N, X) :- !.
 fact(N, X, N1, X1) :- N2 is N1 + 1, X2 is N2 * X1, fact(N, X, N2, X2).
 fact(N, X) :- fact(N, X, 0, 1).
 
+read_list(0, []) :- !.
+read_list(I, [X|T]) :- read(X), I1 is I - 1, read_list(I1, T).
+ 
+write_list([]) :- !.
+write_list([X|T]) :- write(X), nl, write_list(T).
+
 % 11. Найти сумму непростых делителей числа (рек. вверх)
 snd(X, Result) :- snd(X, X, Result).
 snd(_, 2, 1) :- !.
@@ -42,3 +48,8 @@ is_cool_number(X) :- sumcifr_f(X, SF), X = SF.
 task13(2, Result, Result) :- !.
 task13(CurN, CurSum, Result) :- NewN is CurN - 1, (is_cool_number(CurN), NewSum is CurSum + CurN; NewSum is CurSum), task13(NewN, NewSum, Result), !. 
 task13(Result) :- task13(200000, 0, Result).
+
+% 14 Построить предикат, получающий длину списка.
+len([], Result, Result) :- !.
+len([_|T], CurrentLen, Result) :- NewLen is CurrentLen + 1, len(T, NewLen, Result), !.
+len([X|T], Result) :- len([X|T], 0, Result).  
