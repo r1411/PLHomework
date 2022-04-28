@@ -110,3 +110,7 @@ build_missing(OrigList, Min, I, AccumList, Result) :- NewI is I - 1, (contains(O
 build_missing(OrigList, Result) :- list_min(OrigList, Min), list_max(OrigList, Max), build_missing(OrigList, Min, Max, [], Result).
 
 task18 :- write('List length: '), read(N), read_list(N, L), build_missing(L, L2), write('Missing: '), nl, write_list(L2), !.
+
+%%% 19 (1.27) Дан целочисленный массив. Осуществить циклический сдвиг элементов массива влево на одну позицию.
+
+task19 :- write('List length: '), read(N), read_list(N, L), shift_left(L, 1, L2), write('Shifted list: '), nl, write_list(L2), !.
