@@ -91,3 +91,22 @@ get_before([X|T], Z, CurList, Result) :- join(CurList, [X], NewList), get_before
 get_before([X|T], Z, Result) :- get_before([X|T], Z, [], Result).
 
 task17 :- write('List length: '), read(N), read_list(N, L), list_min(L, Min), get_before(L, Min, L2), write("Result:"), nl, write_list(L2), !.
+
+%%% 18 (1.20) Дан целочисленный массив. Необходимо найти все пропущенные числа.
+
+% Получить максимальный элемент списка
+list_max([], Result, Result) :- !.
+list_max([X|T], CurrentMax, Result) :- (X > CurrentMax, NewMax is X; NewMax is CurrentMax), list_max(T, NewMax, Result), !.
+list_max([X|T], Result) :- list_max([X|T], X, Result).
+
+% Содержится ли элемент Y в списке
+contains([Y|_], Y) :- !.
+contains([], _) :- !, fail.
+contains([_|T], Y) :- contains(T, Y), !.
+
+% Получить все пропущенные элементы списка
+build_missing(_, Min, Min, Result, Result) :- !.
+build_missing(OrigList, Min, I, AccumList, Result) :- NewI is I - 1, (contains(OrigList, I), join([], AccumList, NewList); join([I], AccumList, NewList)), build_missing(OrigList, Min, NewI, NewList, Result), !.
+build_missing(OrigList, Result) :- list_min(OrigList, Min), list_max(OrigList, Max), build_missing(OrigList, Min, Max, [], Result).
+
+task18 :- write('List length: '), read(N), read_list(N, L), build_missing(L, L2), write('Missing: '), nl, write_list(L2), !.
