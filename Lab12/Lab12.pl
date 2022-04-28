@@ -61,7 +61,7 @@ get_elem_by_idx([X|_], 0, X) :- !.
 get_elem_by_idx([_|T], Idx, Result) :- Idx1 is Idx - 1, get_elem_by_idx(T, Idx1, Result).
 
 % Получить минимальный элемент списка
-list_min([_|[]], Result, Result) :- !.
+list_min([], Result, Result) :- !.
 list_min([X|T], CurrentMin, Result) :- (X < CurrentMin, NewMin is X; NewMin is CurrentMin), list_min(T, NewMin, Result), !.
 list_min([X|T], Result) :- list_min([X|T], X, Result).
 
