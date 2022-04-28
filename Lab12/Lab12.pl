@@ -66,3 +66,18 @@ list_min([X|T], CurrentMin, Result) :- (X < CurrentMin, NewMin is X; NewMin is C
 list_min([X|T], Result) :- list_min([X|T], X, Result).
 
 task15 :- write('List length: '), read(N), read_list(N, L), write('Index: '), read(Idx1), list_min(L, Idx2), write('Global min: '), (Idx1 =:= Idx2, write('YES!'); write('NO!')), !.
+
+%%% 16 (1.6) Дан целочисленный массив. Осуществить циклический сдвиг элементов массива влево на три позиции.
+
+% Склеить 2 списка (первые 2 перменных - два списка, третья - результат)
+join([], X, X).
+join([X|Y], Z, [X|W]) :- join(Y, Z, W).
+
+% Циклический сдвиг списка влево на N
+shift_left(Result, 0, Result) :- !.
+shift_left([X|T], N, Result) :- N1 is N - 1, join(T, [X], NewList), shift_left(NewList, N1, Result), !.
+
+% Циклический сдвиг списка влево на 3
+shift_left_3([X|T], Result) :- shift_left([X|T], 3, Result).
+
+task16 :- write('List length: '), read(N), read_list(N, L), shift_left_3(L, L2), write('Shifted list: '), nl, write_list(L2), !.
