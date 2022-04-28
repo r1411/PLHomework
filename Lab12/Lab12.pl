@@ -114,3 +114,12 @@ task18 :- write('List length: '), read(N), read_list(N, L), build_missing(L, L2)
 %%% 19 (1.27) Дан целочисленный массив. Осуществить циклический сдвиг элементов массива влево на одну позицию.
 
 task19 :- write('List length: '), read(N), read_list(N, L), shift_left(L, 1, L2), write('Shifted list: '), nl, write_list(L2), !.
+
+%%% 20 (1.30) Дан целочисленный массив и индекс. Определить, является ли элемент по индексу локальным максимумом.
+
+% Является ли элемент по индексу локальным максимумом
+is_local_max([Prev, Current, Next | _], Idx, Idx) :- Current > Prev, Current > Next.
+is_local_max([_ | Tail], I, Idx) :- I1 is I + 1, is_local_max(Tail, I1, Idx), !.
+is_local_max([Head | Tail], Idx) :- is_local_max([Head | Tail], 1, Idx).
+
+task20 :- write('List length: '), read(N), read_list(N, L), write('Index: '), read(Idx), write('Local max: '), (is_local_max(L, Idx), write('YES!'); write('NO!')), !.
