@@ -53,3 +53,16 @@ task13(Result) :- task13(200000, 0, Result).
 len([], Result, Result) :- !.
 len([_|T], CurrentLen, Result) :- NewLen is CurrentLen + 1, len(T, NewLen, Result), !.
 len([X|T], Result) :- len([X|T], 0, Result).  
+
+%%% 15 (1.5) Дан целочисленный массив и индекс. Определить, является ли элемент по индексу глобальным минимумом.
+
+% Получить элемент списка по индексу
+get_elem_by_idx([X|_], 0, X) :- !.
+get_elem_by_idx([_|T], Idx, Result) :- Idx1 is Idx - 1, get_elem_by_idx(T, Idx1, Result).
+
+% Получить минимальный элемент списка
+list_min([_|[]], Result, Result) :- !.
+list_min([X|T], CurrentMin, Result) :- (X < CurrentMin, NewMin is X; NewMin is CurrentMin), list_min(T, NewMin, Result), !.
+list_min([X|T], Result) :- list_min([X|T], X, Result).
+
+task15 :- write('List length: '), read(N), read_list(N, L), write('Index: '), read(Idx1), list_min(L, Idx2), write('Global min: '), (Idx1 =:= Idx2, write('YES!'); write('NO!')), !.
