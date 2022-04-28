@@ -81,3 +81,13 @@ shift_left([X|T], N, Result) :- N1 is N - 1, join(T, [X], NewList), shift_left(N
 shift_left_3([X|T], Result) :- shift_left([X|T], 3, Result).
 
 task16 :- write('List length: '), read(N), read_list(N, L), shift_left_3(L, L2), write('Shifted list: '), nl, write_list(L2), !.
+
+%%% 17 (1.18) Дан целочисленный массив. Необходимо найти элементы, расположенные перед первым минимальным.
+
+% Вернуть список, содержащий все элементы исходного до числа Z.
+get_before([], _, Result, Result) :- !. % Частный случай, когда Z нет в списке
+get_before([X|_], X, Result, Result) :- !.
+get_before([X|T], Z, CurList, Result) :- join(CurList, [X], NewList), get_before(T, Z, NewList, Result), !.
+get_before([X|T], Z, Result) :- get_before([X|T], Z, [], Result).
+
+task17 :- write('List length: '), read(N), read_list(N, L), list_min(L, Min), get_before(L, Min, L2), write("Result:"), nl, write_list(L2), !.
