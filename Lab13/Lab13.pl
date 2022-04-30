@@ -52,3 +52,18 @@ filter_by_freq([H|T], MinFreq, CurList, Result) :- freq([H|T], H, Fr), Fr > MinF
 filter_by_freq([_|T], MinFreq, CurList, Result) :- filter_by_freq(T, MinFreq, CurList, Result), !.
 
 task13 :- write('List length: '), read(N), read_list(N, L), filter_by_freq(L, 3, L2), write('New list: '), nl, write_list(L2).
+
+%%% 14 
+task14 :-
+    Hair = [_, _, _],
+    in_list(Hair,[belokurov,_]),
+    in_list(Hair,[chernov,_]),
+    in_list(Hair,[rizhov,_]),
+    in_list(Hair,[_,ginger]),
+    in_list(Hair,[_,blond]),
+    in_list(Hair,[_,brunette]),
+    not(in_list(Hair,[belokurov,blond])),
+    not(in_list(Hair,[belokurov,brunette])),
+    not(in_list(Hair,[chernov,brunette])),
+    not(in_list(Hair,[rizhov,ginger])),
+    write(Hair), !.
