@@ -2,6 +2,10 @@
 join([], X, X).
 join([X|Y], Z, [X|W]) :- join(Y, Z, W).
 
+% Наличие элемента в списке
+in_list([El|_], El).
+in_list([_|Tail], El) :- in_list(Tail, El).
+
 read_list(0, []) :- !.
 read_list(I, [X|T]) :- read(X), I1 is I - 1, read_list(I1, T).
  
@@ -38,3 +42,13 @@ find_indexes([], _, _, Result, Result) :- !.
 find_indexes([H|T], X, I, CurList, Result) :- (H is X, join(CurList, [I], NewList); NewList = CurList), I1 is I + 1, find_indexes(T, X, I1, NewList, Result), !. 
 
 task12 :- write('List length: '), read(N), read_list(N, L), most_freq(L, MF), find_indexes(L, MF, L2), write('Most frequent = '), write(MF), nl, write_list(L2).
+
+%%% 13 (1.54) Для введенного списка построить список из элементов, встречающихся в исходном более трех раз.
+
+% Найти элементы, встречающиеся более <MinFreq> раз
+filter_by_freq(List, MinFreq, Result) :- filter_by_freq(List, MinFreq, [], Result).
+filter_by_freq([], _, Result, Result) :- !.
+filter_by_freq([H|T], MinFreq, CurList, Result) :- freq([H|T], H, Fr), Fr > MinFreq, not(in_list(CurList, H)), join(CurList, [H], NewList), filter_by_freq(T, MinFreq, NewList, Result), !.
+filter_by_freq([_|T], MinFreq, CurList, Result) :- filter_by_freq(T, MinFreq, CurList, Result), !.
+
+task13 :- write('List length: '), read(N), read_list(N, L), filter_by_freq(L, 3, L2), write('New list: '), nl, write_list(L2).
