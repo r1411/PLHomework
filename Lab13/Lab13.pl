@@ -141,3 +141,22 @@ task17 :-
     next([stakan, _], [_, milk], Drinks),
     write(Drinks), !.
     
+%%% 18 [Фамилия, Профессия]
+task18 :-
+    People = [_, _, _, _],
+    in_list(People, [voronov, _]),
+    in_list(People, [pavlov, _]),
+    in_list(People, [levitsky, _]),
+    in_list(People, [saharov, _]),
+    in_list(People, [_, dancer]),
+    in_list(People, [_, artist]),
+    in_list(People, [_, singer]),
+    in_list(People, [_, writer]),
+    not(in_list(People, [voronov, singer])),
+    not(in_list(People, [voronov, artist])),
+    not(in_list(People, [levitsky, singer])),
+    not(in_list(People, [pavlov, writer])),
+    not(in_list(People, [pavlov, artist])),
+    not(in_list(People, [saharov, writer])),
+    not(in_list(People, [voronov, writer])),
+    write(People), !.
