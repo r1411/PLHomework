@@ -87,3 +87,17 @@ task15 :-
     not(in_list(Dress, [valya, _, white])),     % Туфли Вали не были белыми
     not(in_list(Dress, [valya, white, _])),     % Платье Вали не было белым
     write(Dress), !.
+
+%%% 16 [Фамилия, Профессия, Колво_Братьев, Возраст]
+task16 :-
+    Zavod = [_, _, _],
+    in_list(Zavod, [_, slesar, 0, 0]),
+    in_list(Zavod, [_, tokar, _, 1]),
+    in_list(Zavod, [_, svarshik, _, _]),
+    in_list(Zavod, [borisov, _, 1, _]),
+    in_list(Zavod, [ivanov, _, _, _]),
+    in_list(Zavod, [semenov, _, _, 2]),
+    in_list(Zavod, [Person1, slesar, _, _]),
+    in_list(Zavod, [Person2, tokar, _, _]),
+    in_list(Zavod, [Person3, svarshik, _, _]),
+    write('slesar = '),write(Person1), nl, write('tokar = '), write(Person2), nl, write('svarshick = '), write(Person3), !.
