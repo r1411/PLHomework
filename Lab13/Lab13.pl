@@ -100,9 +100,9 @@ task16 :-
     in_list(Zavod, [Person1, slesar, _, _]),
     in_list(Zavod, [Person2, tokar, _, _]),
     in_list(Zavod, [Person3, svarshik, _, _]),
-    write('slesar = '),write(Person1), nl, write('tokar = '), write(Person2), nl, write('svarshick = '), write(Person3), !.
+    write('slesar = '), write(Person1), nl, write('tokar = '), write(Person2), nl, write('svarshick = '), write(Person3), !.
 
-%%% 17 [Сосуд, Жидкость, Позиция]
+%%% 17 [Сосуд, Жидкость]
 
 % B справа от A в списке
 right(_,_,[_]):-fail.
