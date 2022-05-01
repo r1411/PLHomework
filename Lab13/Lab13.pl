@@ -101,3 +101,43 @@ task16 :-
     in_list(Zavod, [Person2, tokar, _, _]),
     in_list(Zavod, [Person3, svarshik, _, _]),
     write('slesar = '),write(Person1), nl, write('tokar = '), write(Person2), nl, write('svarshick = '), write(Person3), !.
+
+%%% 17 [Сосуд, Жидкость, Позиция]
+
+% B справа от A в списке
+right(_,_,[_]):-fail.
+right(A,B,[A|[B|_]]).
+right(A,B,[_|List]):-right(A,B,List).
+
+% B слева от A в списке
+left(_,_,[_]):-fail.
+left(A,B,[B|[A|_]]).
+left(A,B,[_|List]):-left(A,B,List).
+
+% B около A в списке
+next(A,B,List):-right(A,B,List).
+next(A,B,List):-left(A,B,List).
+
+% X между A и B в списке
+between(X, A, B, List) :- left(X, A, List), right(X, B, List).
+between(X, A, B, List) :- left(X, B, List), right(X, A, List).
+
+task17 :-
+    Drinks = [_, _, _, _],
+    in_list(Drinks, [bottle, _]),
+    in_list(Drinks, [stakan, _]),
+    in_list(Drinks, [kuvsin, _]),
+    in_list(Drinks, [banka, _]),
+    in_list(Drinks, [_, milk]),
+    in_list(Drinks, [_, limonad]),
+    in_list(Drinks, [_, kvas]),
+    in_list(Drinks, [_, water]),
+    not(in_list(Drinks, [bottle, water])),
+    not(in_list(Drinks, [bottle, milk])),
+    between([_, limonad], [kuvsin, _], [_, kvas], Drinks),
+    not(in_list(Drinks, [banka, limonad])),
+    not(in_list(Drinks, [banka, water])),
+    next([stakan, _], [banka, _], Drinks),
+    next([stakan, _], [_, milk], Drinks),
+    write(Drinks), !.
+    
