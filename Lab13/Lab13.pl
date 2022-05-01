@@ -160,3 +160,28 @@ task18 :-
     not(in_list(People, [saharov, writer])),
     not(in_list(People, [voronov, writer])),
     write(People), !.
+
+%%% 19 [Имя, Нация, Спорт]
+
+% Элемент Y в списке после X
+after(X, Y, [X|T]) :- in_list(T, Y).
+after(X, Y, [_|T]) :- after(X, Y, T).
+
+% Пусть чем ближе к началу списка игрок, тем лучше он играет
+
+task19 :-
+    Friends = [_, _, _],
+    in_list(Friends, [richard, _, _]),
+    in_list(Friends, [_, america, _]),
+    in_list(Friends, [_, australia, _]),
+    in_list(Friends, [_, _, cricket]),
+    after([michael, _, basketball], [_, america, _], Friends),
+    after([simon, israel, _], [_, _, tennis], Friends),
+    after([_, _, cricket], [_, _, tennis], Friends),
+    after([_, _, cricket], [_, _, basketball], Friends),
+    not(in_list(Friends, [michael, america, _])),
+    not(in_list(Friends, [simon, _, tennis])),
+
+    in_list(Friends,[AuFriend, australia, _]),
+    in_list(Friends,[richard, _, RSport]),
+    write('Australian: '), write(AuFriend), nl, write('Richard plays: '), write(RSport), !.
