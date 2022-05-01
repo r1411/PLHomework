@@ -67,3 +67,23 @@ task14 :-
     not(in_list(Hair,[chernov,brunette])),
     not(in_list(Hair,[rizhov,ginger])),
     write(Hair), !.
+
+%%% 15 [Имя, Платье, Туфли]
+task15 :-
+    Dress = [_, _, _],
+    in_list(Dress, [anya, _, _]),
+    in_list(Dress, [natasha, _, _]),
+    in_list(Dress, [valya, _, _]),
+    in_list(Dress, [_, white, _]),
+    in_list(Dress, [_, green, _]),
+    in_list(Dress, [_, blue, _]),
+    in_list(Dress, [_, _, white]),
+    in_list(Dress, [_, _, green]),
+    in_list(Dress, [_, _, blue]),
+    in_list(Dress, [anya, A, A]),               % У Ани цвета платья и туфлей совпадали.
+    not(in_list(Dress, [natasha, B, B])),       % У Наташи цвета платья и туфлей НЕ совпадали.
+    not(in_list(Dress, [valya, C, C])),         % У Вали цвета платья и туфлей НЕ совпадали.
+    in_list(Dress, [natasha, _, green]),        % Наташа была в зеленых туфлях.
+    not(in_list(Dress, [valya, _, white])),     % Туфли Вали не были белыми
+    not(in_list(Dress, [valya, white, _])),     % Платье Вали не было белым
+    write(Dress), !.
