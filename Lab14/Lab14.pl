@@ -39,3 +39,16 @@ most_freq_word(Words, [_|T], CurMaxCnt, CurMaxWord, Result) :- most_freq_word(Wo
 most_freq_word(_, [], _, Result, Result) :- !.
 
 task1_3 :- read_str(Str, _), most_freq_word(Str, X), write('Most frequent word: '), write_str(X).
+
+% 1.4
+slice([H|T], Start, End, Result) :- slice([H|T], Start, End, 0, [], Result).
+slice([H|T], Start, End, I, CurList, Result) :- I >= Start, I < End, join(CurList, [H], NewList), I1 is I + 1, slice(T, Start, End, I1, NewList, Result), !.
+slice([_|T], Start, End, I, CurList, Result) :- I1 is I + 1, slice(T, Start, End, I1, CurList, Result), !.
+slice([], _, _, _, Result, Result) :- !.
+
+write_str_loop(_, 0) :- !. 
+write_str_loop(Str, Cnt) :- write_str(Str), Cnt1 is Cnt - 1, write_str_loop(Str, Cnt1), !. 
+
+task1_4 :- read_str(Str, Len), task1_4(Str, Len).
+task1_4(Str, Len) :- Len > 5, slice(Str, 0, 3, First3), L3 is Len - 3, slice(Str, L3, Len, Last3), write_str(First3), write(" "), write_str(Last3).
+task1_4([Ch|_], Len) :- write_str_loop([Ch], Len).
