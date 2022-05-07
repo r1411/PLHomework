@@ -10,6 +10,10 @@ len([], Result, Result) :- !.
 len([_|T], CurrentLen, Result) :- NewLen is CurrentLen + 1, len(T, NewLen, Result), !.
 len([X|T], Result) :- len([X|T], 0, Result).
 
+in_list([], _) :- fail.
+in_list([X|_], X).
+in_list([_|T] ,X) :- in_list(T, X).
+
 read_str(A, N) :- read_str(A, N, 0).
 read_str(A,N,Flag):-get0(X),r_str(X,A,[],N,0,Flag).
 r_str(-1,A,A,N,N,1):-!.
@@ -107,3 +111,22 @@ str_list_to_words_list(StrList, Result) :- str_list_to_words_list(StrList, [], R
 most_freq_word_in_list(Words, Result) :- most_freq_word(Words, Words, 0, [], Result).
 
 task2_4 :- see('Lab14/file2.txt'), read_list_str(StrList), seen, str_list_to_words_list(StrList, WordsList), most_freq_word_in_list(WordsList, MF), write_str(MF).
+
+% 2.5
+get_repeating_words([], _, Result, Result) :- !.
+get_repeating_words([H|T], PrevWords, CurList, Result) :- in_list(PrevWords, H), join(CurList, [H], NewList), join(PrevWords, [H], NewWords), get_repeating_words(T, NewWords, NewList, Result), !.
+get_repeating_words([H|T], PrevWords, CurList, Result) :- join(PrevWords, [H], NewWords), get_repeating_words(T, NewWords, CurList, Result), !.
+get_repeating_words(Words, Result) :- get_repeating_words(Words, [], [], Result).
+
+% Содержится ли в List хотя бы один элемент второго списка
+contains(_, []) :- fail.
+contains(List, [X|_]) :- in_list(List, X), !.
+contains(List, [_|XT]) :- contains(List, XT).
+
+write_no_rep_words([], _) :- !.
+write_no_rep_words([H|T], RepWords) :- split_str(H, " ", StrWords), not(contains(RepWords, StrWords)), write_str(H), nl, write_no_rep_words(T, RepWords), !.
+write_no_rep_words([_|T], RepWords) :- write_no_rep_words(T, RepWords), !.
+
+task2_5 :- 
+    see('Lab14/file3.txt'), read_list_str(StrList), seen, str_list_to_words_list(StrList, Words), get_repeating_words(Words, RepWords), 
+    tell('Lab14/out_2_5.txt'), write_no_rep_words(StrList, RepWords), told.
