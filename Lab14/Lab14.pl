@@ -157,3 +157,13 @@ shuffle_words([H|T], CurList, Result) :-
     join([L], NewPart, Temp), ((WordLen =\= 1, join(Temp, [R], NewWord)); (NewWord = Temp)), join(CurList, [NewWord], NewList), shuffle_words(T, NewList, Result), !.
 
 task3_6 :- read_str(Str, _), split_str(Str, " ", StrWords), shuffle_words(StrWords, NewWords), write_str_list(NewWords, " ").
+
+% 3.12 Дана строка в которой содержатся цифры и буквы. Необходимо расположить все цифры в начале строки, а буквы - в конце.
+
+% Расположить все цифры в начале строки, а буквы -- в конце
+arrange_string([], Numbers, Other, Result) :- join(Numbers, Other, Result), !.  
+arrange_string([S|T], Numbers, Other, Result) :- S >= 48, S =< 57, join(Numbers, [S], NewNums), arrange_string(T, NewNums, Other, Result), !.  
+arrange_string([S|T], Numbers, Other, Result) :- join(Other, [S], NewOther), arrange_string(T, Numbers, NewOther, Result), !.  
+arrange_string(Str, Result) :- arrange_string(Str, [], [], Result).
+
+task3_12 :- read_str(Str, _), arrange_string(Str, Result), write_str(Result).
