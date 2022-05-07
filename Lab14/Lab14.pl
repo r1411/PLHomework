@@ -85,3 +85,16 @@ count_no_spaces([_|T], CurCnt, Result) :- count_no_spaces(T, CurCnt, Result), !.
 count_no_spaces(Strings, Result) :- count_no_spaces(Strings, 0, Result), !.
 
 task2_2 :- see('Lab14/file1.txt'), read_list_str(StrList), seen, count_no_spaces(StrList, Cnt), write('Strings with no spaces: '), write(Cnt), nl.
+
+% 2.3
+cnt_sym_in_list([], _, Result, Result) :- !.
+cnt_sym_in_list([H|T], Sym, CurCnt, Result) :- count_symbols(H, Sym, Cnt), NewCnt is CurCnt + Cnt, cnt_sym_in_list(T, Sym, NewCnt, Result), !.
+cnt_sym_in_list(List, Sym, Result) :- cnt_sym_in_list(List, Sym, 0, Result), !.
+
+write_many_a([], _) :- !.
+write_many_a([H|T], Avg) :- count_symbols(H, "a", Cnt1), count_symbols(H, "A", Cnt2), Cnt is Cnt1 + Cnt2, Cnt > Avg, write_str(H), nl, write_many_a(T, Avg), !.
+write_many_a([_|T], Avg) :- write_many_a(T, Avg), !.
+
+task2_3 :- 
+    see('Lab14/file1.txt'), read_list_str(StrList), seen, len(StrList, Len), cnt_sym_in_list(StrList, "a", Cnt1), cnt_sym_in_list(StrList, "A", Cnt2), 
+    CntA is Cnt1 + Cnt2, Avg is CntA / Len, write("Avg A per str: "), write(Avg), nl, write_many_a(StrList, Avg).
