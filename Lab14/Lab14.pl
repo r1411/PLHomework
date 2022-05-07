@@ -14,6 +14,10 @@ in_list([], _) :- fail.
 in_list([X|_], X).
 in_list([_|T] ,X) :- in_list(T, X).
 
+get_by_idx(L,I,El):-get_by_idx(L,I,El,0).
+get_by_idx([H|_],K,H,K):-!.
+get_by_idx([_|Tail],I,El,Cou):- I =:= Cou,get_by_idx(Tail,Cou,El,Cou);Cou1 is Cou + 1, get_by_idx(Tail,I,El,Cou1).
+
 read_str(A, N) :- read_str(A, N, 0).
 read_str(A,N,Flag):-get0(X),r_str(X,A,[],N,0,Flag).
 r_str(-1,A,A,N,N,1):-!.
@@ -26,6 +30,10 @@ read_list_str(Cur_list,List,0) :- read_str(A,_,Flag), (not(A = []), append(Cur_l
 
 write_str([]):-!.
 write_str([H|Tail]):-put(H),write_str(Tail).
+
+write_str_list(List) :- write_str_list(List, "\n").
+write_str_list([], _) :- !.
+write_str_list([H|T], Divider) :- write_str(H), write(Divider), write_str_list(T, Divider), !.
 
 %%% Задание 1
 % 1.1
@@ -130,3 +138,22 @@ write_no_rep_words([_|T], RepWords) :- write_no_rep_words(T, RepWords), !.
 task2_5 :- 
     see('Lab14/file3.txt'), read_list_str(StrList), seen, str_list_to_words_list(StrList, Words), get_repeating_words(Words, RepWords), 
     tell('Lab14/out_2_5.txt'), write_no_rep_words(StrList, RepWords), told.
+
+%%% Задача 3
+% 3.6 Дана строка в которой записаны слова через пробел. Перемешать в каждом слове все символы в случайном порядке кроме первого и последнего.
+
+% Перестановка элементов списка в случайном порядке
+shuffle_list(List, Result) :- shuffle_list(List, [], Result).
+shuffle_list([], Result, Result) :- !.
+shuffle_list(List, CurList, Result) :- 
+    len(List, Len), random(0, Len, S), S1 is S + 1, get_by_idx(List, S, X), slice(List, 0, S, Part1), slice(List, S1, Len, Part2), 
+    join(Part1, Part2, ListWithout), join(CurList, [X], NewList), shuffle_list(ListWithout, NewList, Result), !.
+
+% Перемешать в каждом слове все символы в случайном порядке кроме первого и последнего.
+shuffle_words(Words, Result) :- shuffle_words(Words, [], Result).
+shuffle_words([], Result, Result) :- !.
+shuffle_words([H|T], CurList, Result) :-
+    len(H, WordLen), WL1 is WordLen - 1, get_by_idx(H, 0, L), get_by_idx(H, WL1, R), slice(H, 1, WL1, Part), shuffle_list(Part, NewPart), 
+    join([L], NewPart, Temp), ((WordLen =\= 1, join(Temp, [R], NewWord)); (NewWord = Temp)), join(CurList, [NewWord], NewList), shuffle_words(T, NewList, Result), !.
+
+task3_6 :- read_str(Str, _), split_str(Str, " ", StrWords), shuffle_words(StrWords, NewWords), write_str_list(NewWords, " ").
