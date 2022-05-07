@@ -98,3 +98,12 @@ write_many_a([_|T], Avg) :- write_many_a(T, Avg), !.
 task2_3 :- 
     see('Lab14/file1.txt'), read_list_str(StrList), seen, len(StrList, Len), cnt_sym_in_list(StrList, "a", Cnt1), cnt_sym_in_list(StrList, "A", Cnt2), 
     CntA is Cnt1 + Cnt2, Avg is CntA / Len, write("Avg A per str: "), write(Avg), nl, write_many_a(StrList, Avg).
+
+% 2.4
+str_list_to_words_list([], Result, Result) :- !.
+str_list_to_words_list([H|T], CurList, Result) :- split_str(H, " ", StrWords), join(CurList, StrWords, NewList), str_list_to_words_list(T, NewList, Result), !.
+str_list_to_words_list(StrList, Result) :- str_list_to_words_list(StrList, [], Result).
+
+most_freq_word_in_list(Words, Result) :- most_freq_word(Words, Words, 0, [], Result).
+
+task2_4 :- see('Lab14/file2.txt'), read_list_str(StrList), seen, str_list_to_words_list(StrList, WordsList), most_freq_word_in_list(WordsList, MF), write_str(MF).

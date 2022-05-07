@@ -1,0 +1,5 @@
+Many people complain about Prolog programming language and say that Prolog is bad.
+But what happened? They program on their Java, Python, C++. What about Prolog?
+I don't understand them. After all ..... Prolog is cool
+
+Btw, the most common word in this text is Prolog
