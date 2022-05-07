@@ -18,7 +18,7 @@ r_str(X,A,B,N,K,Flag):-K1 is K+1,append(B,[X],B1),get0(X1),r_str(X1,A,B1,N,K1,Fl
 
 read_list_str(List) :- read_str(A,_,Flag), read_list_str([A],List,Flag).
 read_list_str(List,List,1) :- !.
-read_list_str(Cur_list,List,0) :- read_str(A,_,Flag), append(Cur_list,[A],C_l), read_list_str(C_l,List,Flag).
+read_list_str(Cur_list,List,0) :- read_str(A,_,Flag), (not(A = []), append(Cur_list,[A],C_l), read_list_str(C_l,List,Flag); read_list_str(Cur_list,List,Flag)), !.
 
 write_str([]):-!.
 write_str([H|Tail]):-put(H),write_str(Tail).
@@ -77,3 +77,11 @@ max_len_in_list([_|T], CurMax, Result) :- max_len_in_list(T, CurMax, Result), !.
 max_len_in_list(List, Result) :- max_len_in_list(List, 0, Result).
 
 task2_1 :- see('Lab14/file1.txt'), read_list_str(StrList), seen, max_len_in_list(StrList, MaxLen), write("Max str len: "), write(MaxLen), nl.
+
+% 2.2
+count_no_spaces([], Result, Result) :- !.
+count_no_spaces([H|T], CurCnt, Result) :- count_symbols(H, " ", SC), SC = 0, NewCnt is CurCnt + 1, count_no_spaces(T, NewCnt, Result), !.
+count_no_spaces([_|T], CurCnt, Result) :- count_no_spaces(T, CurCnt, Result), !.
+count_no_spaces(Strings, Result) :- count_no_spaces(Strings, 0, Result), !.
+
+task2_2 :- see('Lab14/file1.txt'), read_list_str(StrList), seen, count_no_spaces(StrList, Cnt), write('Strings with no spaces: '), write(Cnt), nl.
