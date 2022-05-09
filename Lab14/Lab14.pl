@@ -234,3 +234,14 @@ task7_writer :-
     write(Word), nl, fail.
 
 task7 :- tell('Lab14/out_7.txt'), task7_writer; told.
+
+%%% Задача 8
+task8_writer :-
+    Word = [_, _, _, _, _], combs([A_Pos1, A_Pos2], [0,1,2,3,4], 2),
+    get_by_idx(Word, A_Pos1, a), get_by_idx(Word, A_Pos2, a),
+    in_list_exclude([0,1,2,3,4], A_Pos1, Temp1), in_list_exclude(Temp1, A_Pos2, [Other_Pos1, Other_Pos2, Other_Pos3]),
+    k_perms([b,c,d,e,f], 3, [Let1, Let2, Let3]), 
+    get_by_idx(Word, Other_Pos1, Let1), get_by_idx(Word, Other_Pos2, Let2), get_by_idx(Word, Other_Pos3, Let3), 
+    write(Word), nl, fail.
+
+task8 :- tell('Lab14/out_8.txt'), task8_writer; told.
