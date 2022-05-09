@@ -231,6 +231,6 @@ task7_writer :-
     in_list_exclude([0,1,2,3,4], A_Pos1, Temp1), in_list_exclude(Temp1, A_Pos2, [Other_Pos1, Other_Pos2, Other_Pos3]),
     k_perms_rep([b,c,d,e,f], 3, [Let1, Let2, Let3]), 
     get_by_idx(Word, Other_Pos1, Let1), get_by_idx(Word, Other_Pos2, Let2), get_by_idx(Word, Other_Pos3, Let3), 
-    write(Word), nl, fail, told.
+    write(Word), nl, fail.
 
 task7 :- tell('Lab14/out_7.txt'), task7_writer; told.
