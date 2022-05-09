@@ -177,16 +177,22 @@ in_list_exclude([El|T],El,T).
 in_list_exclude([H|T],El,[H|Tail]):-in_list_exclude(T,El,Tail).
 
 % Размещения по K с повторениями
-k_perms_rep(_, 0, Result1) :- write("\t"), write(Result1), nl, !, fail. 
-k_perms_rep(List, K, Result) :- in_list(List, X), K1 is K - 1, k_perms_rep(List, K1, [X|Result]). 
+k_perms_rep(_, 0, Result, Result) :- !. 
+k_perms_rep(List, K, CurList, Result) :- in_list(List, X), K1 is K - 1, k_perms_rep(List, K1, [X|CurList], Result). 
+k_perms_rep(List, K, Result) :- k_perms_rep(List, K, [], Result).
+k_perms_rep(List, K) :- k_perms_rep(List, K, Perm), write("\t"), write(Perm), nl, fail.
 
 % Перестановки
-perms([], Result) :- write("\t"), write(Result), nl, !, fail.
-perms(List, Result) :- in_list_exclude(List, X, Tail), perms(Tail, [X|Result]).
+perms([], Result, Result) :- !.
+perms(List, CurPerm, Result) :- in_list_exclude(List, X, Tail), perms(Tail, [X|CurPerm], Result).
+perms(List, Result) :- perms(List, [], Result).
+perms(List) :- perms(List, P), write("\t"), write(P), nl, fail.
 
 % Размещения по K без повторений
-k_perms(_, 0, Result1) :- write("\t"), write(Result1), nl, !, fail. 
-k_perms(List, K, Result) :- in_list_exclude(List, X, Tail), K1 is K - 1, k_perms(Tail, K1, [X|Result]). 
+k_perms(_, 0, Result, Result) :- !.
+k_perms(List, K, CurPerm, Result) :- in_list_exclude(List, X, Tail), K1 is K - 1, k_perms(Tail, K1, [X|CurPerm], Result).
+k_perms(List, K, Result) :- k_perms(List, K, [], Result).
+k_perms(List, K) :- k_perms(List, K, Perm), write("\t"), write(Perm), nl, fail.
 
 % Все подмножества
 powerset([], []).
@@ -210,9 +216,9 @@ task6 :-
     write("Elements count: "), read(N), read_list(N, List), write('K: '), read(K), 
     tell('Lab14/out_6.txt'),
     write("Set: "), write(List), write("; K = "), write(K), nl, nl,
-    write(K), write("-permutations (with rep.): "), nl, not(k_perms_rep(List, K, [])), nl,
-    write("All permutations: "), nl, not(perms(List, [])), nl,
-    write(K), write("-permutations (no rep.): "), nl, not(k_perms(List, K, [])), nl,
+    write(K), write("-permutations (with rep.): "), nl, not(k_perms_rep(List, K)), nl,
+    write("All permutations: "), nl, not(perms(List)), nl,
+    write(K), write("-permutations (no rep.): "), nl, not(k_perms(List, K)), nl,
     write("All subsets: "), nl, not(powerset(List)), nl,
     write(K), write("-combinations (no rep.): "), nl, not(combs(List, K)), nl,
     write(K), write("-combinations (with rep.): "), nl, not(combs_rep(List, K)), nl,
